@@ -317,6 +317,6 @@ def showPlots():
 if __name__ == "__main__":
     # getLandivarModel(save=True)
     # getMarianoModel(save=True)
-    # getMarroquinModel(save=True)
-    getUsacModel(save=True)
+    getMarroquinModel(save=False)
+    # getUsacModel(save=True)
     # showPlots()

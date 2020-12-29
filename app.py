@@ -45,7 +45,7 @@ def hello():
                 landivar_model = models[4]
             with open('TrainedModels/marroquin_model.dat', 'rb') as f:
                 models = pickle.load(f)
-                marroquin_model = models[4]
+                marroquin_model = models[2]
             with open('TrainedModels/mariano_model.dat', 'rb') as f:
                 models = pickle.load(f)
                 mariano_model = models[4]
@@ -67,11 +67,11 @@ def hello():
                     if result[0]:
                         coincidences[key] = result[0]
                     elif result1[0]:
-                        coincidences[key] = result[0]
+                        coincidences[key] = result1[0]
                     elif result2[0]:
-                        coincidences[key] = result[0]
+                        coincidences[key] = result2[0]
                     elif result3[0]:
-                        coincidences[key] = result[0]
+                        coincidences[key] = result3[0]
                     else:
                         coincidences[key] = 0
                 print('transformed:',len(transformed.keys()))
