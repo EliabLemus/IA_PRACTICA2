@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<style>
+.thick-border {
+        border: 3px solid black;
+        border-collapse: collapse;
+}
+</style>
+<body>
+
+<h1>IA Practica 2</h1>
+
+<p>Seleccione un conjunto de imagenes.</p>
+
+<form action="/" method="POST" enctype="multipart/form-data" >
+  <label for="files">Select files:</label>
+  <input type="file" id="files" name="files" multiple><br><br>
+  <input type="submit" value="Analizar imagenes">
+</form>
+{%if results['table_results'] %}
+<table class="centered thick-border">
+        <tr>
+                <th>File name</th>
+                <th>Result</th>
+                <th>image</th>
+        </tr>
+        {% for k, v in results['table_results'].items() %}
+        <tr>
+                <td>  {{ k }} </td>
+                <td>  {{ v }} </td>
+                <td>  <img src="{{ url_for('display_image', filename=k) }}" alt="" border=3 height=100 width=100 /> </td>
+        </tr>
+        {% endfor %}
+</table>
+{%endif%}
+{%if results['model_results'] %}
+<table class="centered thick-border">
+        <tr>
+                <th>File name</th>
+                <th>Result</th>
+        </tr>
+        {% for k, v in results['model_results'].items() %}
+        <tr>
+                <td>  {{ k }} </td>
+                <td>  {{ v }} </td>
+        </tr>
+        {% endfor %}
+</table>
+{%endif%}
+</body>
+</html>
