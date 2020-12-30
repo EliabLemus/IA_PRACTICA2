@@ -5,9 +5,14 @@
         border: 3px solid black;
         border-collapse: collapse;
 }
+.content {
+  max-width: 500px;
+  margin: auto;
+}
+
 </style>
 <body>
-
+<div class="content">
 <h1>IA Practica 2</h1>
 
 <p>Seleccione un conjunto de imagenes.</p>
@@ -15,7 +20,7 @@
 <form action="/" method="POST" enctype="multipart/form-data" >
   <label for="files">Select files:</label>
   <input type="file" id="files" name="files" multiple><br><br>
-  <input type="submit" value="Analizar imagenes">
+  <input type="submit" value="Analizar imagenes"><br><br><br><br>
 </form>
 {%if results['table_results'] %}
 <table class="centered thick-border">
@@ -28,7 +33,7 @@
         <tr>
                 <td>  {{ k }} </td>
                 <td>  {{ v }} </td>
-                <td>  <img src="{{ url_for('display_image', filename=k) }}" alt="" border=3 height=100 width=100 /> </td>
+                <td>  <img src="{{ url_for('display_image', filename=k) }}" alt="" border=3 height=100 width=100 > </td>
         </tr>
         {% endfor %}
 </table>
@@ -47,5 +52,6 @@
         {% endfor %}
 </table>
 {%endif%}
+</div>
 </body>
 </html>

@@ -4,8 +4,10 @@ import pickle, os, glob
 import loadFile
 from io import StringIO
 from flask import Flask, render_template, request, jsonify, redirect, url_for
+from flask_bootstrap import Bootstrap
 results = {}
 app = Flask(__name__)
+Bootstrap(app)
 UPLOAD_FOLDER = 'static/UploadedFiles'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['FLASK_DEBUG'] = True
@@ -111,5 +113,5 @@ def hello():
     return render_template('form.html',results=results, image_path = image_path)
 @app.route('/display/<filename>')
 def display_image(filename):
-	#print('display_image filename: ' + filename)
-	return redirect(url_for('/UploadedFiles', filename='/' + filename), code=301)    
+	print('display_image filename: ' + filename)
+	return redirect(url_for('static', filename='UploadedFiles/' + filename), code=301)    
