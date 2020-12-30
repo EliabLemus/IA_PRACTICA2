@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<style>
+.thick-border {
+        border: 3px solid black;
+        border-collapse: collapse;
+}
+.content {
+  max-width: 500px;
+  margin: auto;
+}
+
+</style>
+<body>
+<div class="content">
+<h1>IA Practica 2</h1>
+
+<p>Graficas modelos utilizados</p>
+{% if filenames %}
+<table class="centered thick-border">   
+    <tr>
+                <th>Modelo</th>
+    </tr>
+	{% for filename in filenames %}
+    <tr>
+		<div>
+			<td>
+            {% if models_used %}
+            Modelo en uso: alpha={{ models_used[filename].alpha }} lambda={{ models_used[filename].lam }}<br>
+            Eficacia en entrenamiento: {{ models_used[filename].train_accuracy }}<br>
+            Eficacia en prueba: {{ models_used[filename].test_accuracy }}<br>
+            {% endif %}
+            <img src="{{ url_for('display_model', filename=filename) }}" alt="" border=3 height=auto width=auto ></td>
+		</div>
+    </tr>
+	{% endfor %}
+</table>
+{% endif %}
+</div>
+</body>
+</html>
