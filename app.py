@@ -6,6 +6,10 @@ from io import StringIO
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 from flask_bootstrap import Bootstrap
 results = {}
+usac_model = []
+landivar_model = []
+marroquin_model = []
+mariano_model = []
 app = Flask(__name__)
 Bootstrap(app)
 UPLOAD_FOLDER = 'static/UploadedFiles'
@@ -14,6 +18,19 @@ app.config['FLASK_DEBUG'] = True
 app.debug=1
 app.after_request
 image_path = os.path.join(app.config['UPLOAD_FOLDER'])
+# #open saved models
+with open('TrainedModels/usac_model.dat', 'rb') as f:
+    models = pickle.load(f)
+    usac_model = models[0]
+with open('TrainedModels/landivar_model.dat', 'rb') as f:
+    models = pickle.load(f)
+    landivar_model = models[4]
+with open('TrainedModels/marroquin_model.dat', 'rb') as f:
+    models = pickle.load(f)
+    marroquin_model = models[3]
+with open('TrainedModels/mariano_model.dat', 'rb') as f:
+    models = pickle.load(f)
+    mariano_model = models[4]
 def add_header(r):
     """
     Add headers to both force latest IE rendering engine or Chrome Frame,
@@ -38,22 +55,10 @@ def hello():
             results['table_results'] = {}    
             results['model_results'] = {}
             coincidences = {}
-            # #open saved models
-            with open('TrainedModels/usac_model.dat', 'rb') as f:
-                models = pickle.load(f)
-                usac_model = models[4]
-            with open('TrainedModels/landivar_model.dat', 'rb') as f:
-                models = pickle.load(f)
-                landivar_model = models[4]
-            with open('TrainedModels/marroquin_model.dat', 'rb') as f:
-                models = pickle.load(f)
-                marroquin_model = models[2]
-            with open('TrainedModels/mariano_model.dat', 'rb') as f:
-                models = pickle.load(f)
-                mariano_model = models[4]
                     
             fileName = request.files['files'].filename
             f = request.files.getlist('files')
+            
             for file in f:
                 print(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
@@ -67,15 +72,15 @@ def hello():
                     result2 = mariano_model.predict(transformed[key])
                     result3 = marroquin_model.predict(transformed[key])
                     if result[0]:
-                        coincidences[key] = result[0]
+                        coincidences[key] = "Es USAC"
                     elif result1[0]:
-                        coincidences[key] = result1[0]
+                        coincidences[key] = "Es Landivar"
                     elif result2[0]:
-                        coincidences[key] = result2[0]
+                        coincidences[key] = "Es Mariano"
                     elif result3[0]:
-                        coincidences[key] = result3[0]
+                        coincidences[key] = "Es Marroquin"
                     else:
-                        coincidences[key] = 0
+                        coincidences[key] = "No reconocida"
                 print('transformed:',len(transformed.keys()))
                 print('coincidences:',len(coincidences.keys()))
                 results['table_results'] = coincidences
@@ -111,7 +116,22 @@ def hello():
                     predict_result['Desconocido'] = (unknown/total) * 100
                     results['model_results'] = predict_result
     return render_template('form.html',results=results, image_path = image_path)
+
+@app.route("/model-list", methods=['GET'])
+def model():
+    file_names = ['Landivar.png', 'Mariano.png', 'Marroquin.png', 'USAC.png']
+    models_used = {}
+    print(landivar_model.train_accuracy)
+    models_used['Landivar.png'] = landivar_model
+    models_used['Mariano.png'] = mariano_model
+    models_used['Marroquin.png'] = marroquin_model
+    models_used['USAC.png'] = usac_model
+    return render_template('models.html',filenames=file_names, models_used = models_used )
 @app.route('/display/<filename>')
 def display_image(filename):
 	print('display_image filename: ' + filename)
 	return redirect(url_for('static', filename='UploadedFiles/' + filename), code=301)    
+@app.route('/model/<filename>')
+def display_model(filename):
+	print('display_model filename: ' + filename)
+	return redirect(url_for('static', filename='ModelGraphs/' + filename), code=301)    

@@ -14,4 +14,5 @@ def show_Model(models, model_name='default'):
     chart.xlabel('Iteraciones')
     legend = chart.legend(loc='upper center', shadow=True)
     chart.title(model_name)
+    chart.savefig('static/ModelGraphs/'+model_name+'.png')
     chart.show()

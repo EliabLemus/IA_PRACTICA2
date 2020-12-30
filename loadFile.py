@@ -188,25 +188,25 @@ def getMarroquinModel(save = False):
     test_set = Data(test_set_x, test_set_y, 255)
     
     # # # # # Se entrenan los modelos
-    model1 = Model(train_set, test_set, reg=False, alpha=0.001, lam=0.001)
+    model1 = Model(train_set, test_set, reg=False, alpha=0.0001, lam=0.001)
     model1.training()
     
-    model2 = Model(train_set, test_set, reg=False, alpha = 0.003, lam= 0.005)
+    model2 = Model(train_set, test_set, reg=False, alpha = 0.0003, lam= 0.005)
     model2.training()
     
-    model3 = Model(train_set, test_set, reg=False, alpha = 0.001, lam=0.002)
+    model3 = Model(train_set, test_set, reg=False, alpha = 0.0001, lam=0.002)
     model3.training()
     
-    model4 = Model(train_set, test_set, reg=False, alpha = 0.004, lam=0.007)
+    model4 = Model(train_set, test_set, reg=False, alpha = 0.0004, lam=0.007)
     model4.training()
     
-    model5 = Model(train_set, test_set, reg=False, alpha = 0.007, lam = 0.007)
+    model5 = Model(train_set, test_set, reg=False, alpha = 0.0007, lam = 0.007)
     model5.training()
     if save:
         with open('TrainedModels/marroquin_model.dat', 'wb') as f:
             pickle.dump([model1, model2, model3,model4,model5],f) 
     else:
-        Plotter.show_Model([model1, model2, model3,model4,model5])
+        Plotter.show_Model([model1, model2, model3,model4,model5],model_name='Marroquin')
 
 def getMarianoModel(save = True):
     dataset=[]
@@ -249,7 +249,7 @@ def getMarianoModel(save = True):
         with open('TrainedModels/mariano_model.dat', 'wb') as f:
             pickle.dump([model1, model2, model3,model4,model5],f) 
     else:
-        Plotter.show_Model([model1, model2, model3,model4,model5])
+        Plotter.show_Model([model1, model2, model3,model4,model5],model_name='Mariano')
 
 
 def getLandivarModel(save=False):
@@ -293,7 +293,7 @@ def getLandivarModel(save=False):
         with open('TrainedModels/landivar_model.dat', 'wb') as f:
             pickle.dump([model1, model2, model3,model4,model5],f) 
     else:
-        Plotter.show_Model([model1, model2, model3,model4,model5])
+        Plotter.show_Model([model1, model2, model3,model4,model5],model_name='Landivar')
 
 def showPlots():
     with open('TrainedModels/usac_model.dat', 'rb') as f:
@@ -309,14 +309,13 @@ def showPlots():
         mariano_model = pickle.load(f)
 
     Plotter.show_Model(usac_model,'USAC')
-
     Plotter.show_Model(landivar_model,'Landivar')
     Plotter.show_Model(marroquin_model,'Marroquin')
     Plotter.show_Model(mariano_model,'Mariano')
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
     # getLandivarModel(save=True)
     # getMarianoModel(save=True)
-    getMarroquinModel(save=False)
+    # getMarroquinModel(save=True)
     # getUsacModel(save=True)
     # showPlots()

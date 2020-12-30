@@ -31,8 +31,8 @@
         </tr>
         {% for k, v in results['table_results'].items() %}
         <tr>
-                <td>  {{ k }} </td>
-                <td>  {{ v }} </td>
+                <td><br>  {{ k }} <br></td>
+                <td><br>  {{ v }} <br></td>
                 <td>  <img src="{{ url_for('display_image', filename=k) }}" alt="" border=3 height=100 width=100 > </td>
         </tr>
         {% endfor %}
